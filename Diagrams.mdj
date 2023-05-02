@@ -1699,7 +1699,7 @@
 											"top": 1510,
 											"width": 398.56298828125,
 											"height": 13,
-											"text": "+onCounterStateChanged(counter: Counter<?>, state: CounterState)",
+											"text": "+onCounterStateChanged(counter: Counter<?>, state)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -10109,7 +10109,7 @@
 											"top": 714,
 											"width": 398.56298828125,
 											"height": 13,
-											"text": "+onCounterStateChanged(counter: Counter<?>, state: CounterState)",
+											"text": "+onCounterStateChanged(counter: Counter<?>, state)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -16634,7 +16634,7 @@
 											"top": 1088,
 											"width": 403.6220703125,
 											"height": 13,
-											"text": "+onCounterStateChanged(counter: Counter<?>*, state: CounterState)",
+											"text": "+onCounterStateChanged(counter: Counter<?>*, state)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -19295,7 +19295,7 @@
 											"top": 1036,
 											"width": 403.6220703125,
 											"height": 13,
-											"text": "+onCounterStateChanged(counter: Counter<?>*, state: CounterState)",
+											"text": "+onCounterStateChanged(counter: Counter<?>*, state)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -23052,16 +23052,16 @@
 										"$ref": "AAAAAAGH3WYL2o108yM="
 									},
 									"font": "Arial;13;0",
-									"left": 1624,
+									"left": 1618,
 									"top": 933,
-									"width": 7.22998046875,
+									"width": 19.5126953125,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
 									"hostEdge": {
 										"$ref": "AAAAAAGH3WYL2o12BTU="
 									},
-									"text": "1"
+									"text": "1..*"
 								},
 								{
 									"_type": "UMLQualifierCompartmentView",
@@ -24014,10 +24014,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGH1y7KCNp7W9Q="
 									},
-									"name": "state",
-									"type": {
-										"$ref": "AAAAAAGH1y1N/WESOEA="
-									}
+									"name": "state"
 								}
 							]
 						}
@@ -25107,7 +25104,7 @@
 										},
 										"visibility": "private",
 										"navigable": "navigable",
-										"multiplicity": "1"
+										"multiplicity": "1..*"
 									}
 								}
 							],
@@ -25201,10 +25198,7 @@
 											"_parent": {
 												"$ref": "AAAAAAGH13WGYdnY0no="
 											},
-											"name": "state",
-											"type": {
-												"$ref": "AAAAAAGH1y1N/WESOEA="
-											}
+											"name": "state"
 										}
 									]
 								}
@@ -25919,10 +25913,7 @@
 											"_parent": {
 												"$ref": "AAAAAAGH13uLjJGD/Cs="
 											},
-											"name": "state",
-											"type": {
-												"$ref": "AAAAAAGH1y1N/WESOEA="
-											}
+											"name": "state"
 										}
 									]
 								}
@@ -26823,10 +26814,7 @@
 											"_parent": {
 												"$ref": "AAAAAAGH1y5vItBS+J8="
 											},
-											"name": "state",
-											"type": {
-												"$ref": "AAAAAAGH1y1N/WESOEA="
-											}
+											"name": "state"
 										}
 									]
 								}

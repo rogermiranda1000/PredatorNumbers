@@ -1,7 +1,9 @@
 #pragma once
 
+#include <functional>
 #include "Button.h"
 #include "ButtonPressedRequest.h"
+#include "LambdaBPR.h"
 
 class TriggerableButton : public Button {
 protected:
@@ -11,4 +13,5 @@ protected:
 
 public:
     void addListener(ButtonPressedRequest *callback);
+    void addListener(std::function<void(TriggerableButton*,bool)> callback);
 };

@@ -7,3 +7,7 @@ void TriggerableButton::trigger() {
 void TriggerableButton::addListener(ButtonPressedRequest *callback) {
     this->_on_button_pressed = callback;
 }
+
+void TriggerableButton::addListener(std::function<void(TriggerableButton*,bool)> callback) {
+    this->addListener(new LambdaBPR(callback)); // TODO how do we call the destructor in this case?
+}

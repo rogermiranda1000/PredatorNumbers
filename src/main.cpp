@@ -4,7 +4,6 @@
 #include "SubtractTimerCounter.h"
 #include "ArduinoButton.h"
 #include "StatefulClass.h"
-#include "LambdaBPR.h"
 #include "TriggerableButton.h"
 
 #define SERIAL_SPEED 115200
@@ -45,9 +44,9 @@ void setup() {
 
   // TODO add the btns to `CounterButtonsHandler`
 
-  btn0->addListener(new LambdaBPR([](TriggerableButton *btn, bool is_on){
+  btn0->addListener([](TriggerableButton *btn, bool is_on){
     Serial.println("btn0 switch state!");
-  }));
+  });
 }
 
 void loop() {

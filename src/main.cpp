@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <vector>
+#include <functional>
 #include "LambdaTimer.h"
 #include "SubtractTimerCounter.h"
 #include "ArduinoButton.h"
@@ -31,7 +32,7 @@ std::vector<StatefulClass*> _updateable_elements;
 void setup() {
   Serial.begin(SERIAL_SPEED);
 
-  _default_timer = new LambdaTimer([](){ return (uint32_t)millis(); }); // use the default Arduino timer
+  _default_timer = new LambdaTimer(millis); // use the default Arduino timer
   _timer = new SubtractTimerCounter(_default_timer);
 
   pinMode(PIN_BTN0, INPUT_PULLUP);

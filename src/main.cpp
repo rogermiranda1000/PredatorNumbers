@@ -6,6 +6,10 @@
 #include "ArduinoButton.h"
 #include "StatefulClass.h"
 #include "TriggerableButton.h"
+#include "BuzzerPlayer.h"
+#include "ArduinoBuzzer.h"
+
+#include "PollingTimerTrigger.h" // DEBUG ONLY
 
 #define SERIAL_SPEED 115200
 
@@ -25,22 +29,33 @@
 #define PIN_BTN0 3
 #define PIN_BTN1 2
 
-Timer *_default_timer;
+#define BUZZER_SOUND_ON_TICK { Note(350,100), Note(600,10), Note(350,20), Note(600,10), Note(350,40) }
+
 TimerCounter *_timer;
+BuzzerPlayer *_player;
 std::vector<StatefulClass*> _updateable_elements;
+
+// DEBUG ONLY
+class Test : public TimerTriggered {
+public:
+    Test() {}
+
+    void onTimerTriggered(TimerTrigger *trigger) {
+      _player->play();
+    }
+};
 
 void setup() {
   Serial.begin(SERIAL_SPEED);
 
-  _default_timer = new LambdaTimer(millis); // use the default Arduino timer
-  _timer = new SubtractTimerCounter(_default_timer);
+  Timer *_default_timer = new LambdaTimer(millis); // use the default Arduino timer
 
   pinMode(PIN_BTN0, INPUT_PULLUP);
-  ArduinoButton *btn0 = new ArduinoButton(_timer, PIN_BTN0, false);
+  ArduinoButton *btn0 = new ArduinoButton(new SubtractTimerCounter(_default_timer), PIN_BTN0, false);
   _updateable_elements.push_back(btn0);
 
   pinMode(PIN_BTN1, INPUT_PULLUP);
-  ArduinoButton *btn1 = new ArduinoButton(_timer, PIN_BTN1, false);
+  ArduinoButton *btn1 = new ArduinoButton(new SubtractTimerCounter(_default_timer), PIN_BTN1, false);
   _updateable_elements.push_back(btn1);
 
   // TODO add the btns to `CounterButtonsHandler`
@@ -48,6 +63,18 @@ void setup() {
   btn0->addListener([](TriggerableButton *btn, bool is_on){
     Serial.println("btn0 switch state!");
   });
+
+  pinMode(PIN_BUZZER, OUTPUT);
+  const Note notes[] = BUZZER_SOUND_ON_TICK;
+  PollingTimerTrigger *ptt = new PollingTimerTrigger(new SubtractTimerCounter(_default_timer));
+  _updateable_elements.push_back(ptt);
+  _player = new BuzzerPlayer(new ArduinoBuzzer(PIN_BUZZER), ptt, notes, (sizeof(notes)/sizeof(Note)));
+  _player->play();
+
+  // debug
+  /*ptt = new PollingTimerTrigger(new SubtractTimerCounter(_default_timer));
+  _updateable_elements.push_back(ptt);
+  ptt->setTriggerTime(1000)->setListener(new Test());*/
 }
 
 void loop() {

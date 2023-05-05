@@ -10,6 +10,13 @@ BuzzerPlayer::BuzzerPlayer(Buzzer *player, TimerTrigger *timer, const std::vecto
     this->_notes = notes;
 }
 
+BuzzerPlayer::BuzzerPlayer(Buzzer *player, TimerTrigger *timer, const Note * const notes, size_t notes_size) {
+    this->setState(WAITING);
+    this->_player = player;
+    this->_timer = timer;
+    for (size_t n = 0; n < notes_size; n++) this->_notes.push_back(notes[n]);
+}
+
 void BuzzerPlayer::play() {
     this->setState(FIRST_PLAY);
 }

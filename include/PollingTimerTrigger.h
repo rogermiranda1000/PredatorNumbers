@@ -5,7 +5,7 @@
 #include "StatefulClass.h"
 #include "TimerTrigger.h"
 
-class PollingTimerTrigger : public TimerTrigger, StatefulClass {
+class PollingTimerTrigger : public TimerTrigger, public StatefulClass {
 private:
     TimerCounter *_timer;
 

@@ -18,6 +18,7 @@ private:
 
 public:
     BuzzerPlayer(Buzzer *player, TimerTrigger *timer, const std::vector<Note> &notes);
+    BuzzerPlayer(Buzzer *player, TimerTrigger *timer, const Note * const notes, size_t notes_size);
 
     void play();
     void onTimerTriggered(TimerTrigger *trigger);

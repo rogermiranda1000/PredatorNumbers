@@ -4,23 +4,24 @@
 #define FIRST_PLAY  1
 
 BuzzerPlayer::BuzzerPlayer(Buzzer *player, TimerTrigger *timer, const std::vector<Note> &notes) {
-    this->setState(WAITING);
     this->_player = player;
     this->_timer = timer;
     this->_notes = notes;
+    
+    this->setState(WAITING);
 }
 
 BuzzerPlayer::BuzzerPlayer(Buzzer *player, TimerTrigger *timer, const Note * const notes, size_t notes_size) {
-    this->setState(WAITING);
     this->_player = player;
     this->_timer = timer;
     for (size_t n = 0; n < notes_size; n++) this->_notes.push_back(notes[n]);
+
+    this->setState(WAITING);
 }
 
 void BuzzerPlayer::play() {
     this->setState(FIRST_PLAY);
 }
-
 
 void BuzzerPlayer::setState(uint16_t new_state) {
     if (new_state > this->_notes.size()) new_state = 0; // no more notes; finished

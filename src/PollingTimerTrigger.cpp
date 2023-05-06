@@ -5,7 +5,7 @@ PollingTimerTrigger::PollingTimerTrigger(TimerCounter *timer) {
 }
 
 TimerTrigger *PollingTimerTrigger::setTriggerTime(uint32_t every) {
-    TimerTrigger::setTriggerTime(every);
+    this->TimerTrigger::setTriggerTime(every);
     this->_timer->resetCounter(); // reset the counter when they change the trigger time
     return this;
 }

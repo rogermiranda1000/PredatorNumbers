@@ -65,19 +65,21 @@ void setup() {
   });
 
   pinMode(PIN_BUZZER, OUTPUT);
-  const Note notes[] = BUZZER_SOUND_ON_TICK;
+  ArduinoBuzzer *buzzer = new ArduinoBuzzer(PIN_BUZZER);
+
   PollingTimerTrigger *ptt = new PollingTimerTrigger(new SubtractTimerCounter(_default_timer));
   _updateable_elements.push_back(ptt);
-  _player = new BuzzerPlayer(new ArduinoBuzzer(PIN_BUZZER), ptt, notes, (sizeof(notes)/sizeof(Note)));
-  _player->play();
+  const Note notes[] = BUZZER_SOUND_ON_TICK;
+  _player = new BuzzerPlayer(buzzer, ptt, notes, sizeof(notes)/sizeof(Note));
 
   // debug
-  /*ptt = new PollingTimerTrigger(new SubtractTimerCounter(_default_timer));
+  ptt = new PollingTimerTrigger(new SubtractTimerCounter(_default_timer));
   _updateable_elements.push_back(ptt);
-  ptt->setTriggerTime(1000)->setListener(new Test());*/
+  ptt->setTriggerTime(1000)->setListener(new Test());
 }
 
 void loop() {
+    Serial.println("loop");
   // update all the state machines
   for (StatefulClass *e : _updateable_elements) e->update();
 }

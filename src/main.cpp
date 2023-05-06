@@ -79,7 +79,6 @@ void setup() {
 }
 
 void loop() {
-    Serial.println("loop");
   // update all the state machines
   for (StatefulClass *e : _updateable_elements) e->update();
 }

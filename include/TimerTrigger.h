@@ -11,6 +11,8 @@ protected:
     void trigger();
 
 public:
+    TimerTrigger();
+
     TimerTrigger *setTriggerTime(uint32_t every);
 
     void setListener(TimerTriggered *listener);

@@ -1,5 +1,9 @@
 #include "TriggerableButton.h"
 
+TriggerableButton::TriggerableButton() {
+    this->_on_button_pressed = nullptr;
+}
+
 void TriggerableButton::trigger() {
     if (this->_on_button_pressed != nullptr) this->_on_button_pressed->onButtonStateChanged(this, this->getButtonState());
 }

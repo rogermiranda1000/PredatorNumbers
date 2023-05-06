@@ -1,5 +1,9 @@
 #include "TimerTrigger.h"
 
+TimerTrigger::TimerTrigger() {
+    this->_listener = nullptr;
+}
+
 void TimerTrigger::setListener(TimerTriggered *listener) {
     this->_listener = listener;
 }

@@ -12,6 +12,8 @@ protected:
     void trigger();
 
 public:
+    TriggerableButton();
+
     void addListener(ButtonPressedRequest *callback);
     void addListener(std::function<void(TriggerableButton*,bool)> callback);
 };

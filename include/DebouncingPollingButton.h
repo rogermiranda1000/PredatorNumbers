@@ -17,6 +17,7 @@ protected:
 
 public:
     DebouncingPollingButton(TimerCounter *timer);
+    ~DebouncingPollingButton();
 
     void update();
     bool getButtonState();

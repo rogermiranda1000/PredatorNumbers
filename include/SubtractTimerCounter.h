@@ -10,6 +10,7 @@ private:
 
 public:
     SubtractTimerCounter(Timer *timer);
+    ~SubtractTimerCounter() = default;
 
     /**
      * Gets the time between now and the last time `resetCounter` has been called.

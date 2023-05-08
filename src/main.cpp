@@ -2,13 +2,14 @@
 #include <vector>
 #include <functional>
 #include "LambdaTimer.h"
-#include "SubtractTimerCounter.h"
-#include "ArduinoButton.h"
 #include "StatefulClass.h"
 #include "TriggerableButton.h"
 #include "BuzzerPlayer.h"
 #include "ArduinoBuzzer.h"
+#include "ArduinoButtonBuilder.h"
+#include "DebouncingPollingButton.h"
 
+#include "SubtractTimerCounter.h" // TODO delegate to builder
 #include "PollingTimerTrigger.h" // DEBUG ONLY
 
 #define SERIAL_SPEED 115200
@@ -48,14 +49,16 @@ public:
 void setup() {
   Serial.begin(SERIAL_SPEED);
 
-  Timer *_default_timer = new LambdaTimer(millis); // use the default Arduino timer
+  Timer *default_timer = new LambdaTimer(millis); // use the default Arduino timer
+
+  ArduinoButtonBuilder buttonBuilder(default_timer);
 
   pinMode(PIN_BTN0, INPUT_PULLUP);
-  ArduinoButton *btn0 = new ArduinoButton(new SubtractTimerCounter(_default_timer), PIN_BTN0, false);
+  DebouncingPollingButton *btn0 = buttonBuilder.build(PIN_BTN0, false);
   _updateable_elements.push_back(btn0);
 
   pinMode(PIN_BTN1, INPUT_PULLUP);
-  ArduinoButton *btn1 = new ArduinoButton(new SubtractTimerCounter(_default_timer), PIN_BTN1, false);
+  DebouncingPollingButton *btn1 = buttonBuilder.build(PIN_BTN1, false);
   _updateable_elements.push_back(btn1);
 
   // TODO add the btns to `CounterButtonsHandler`
@@ -67,13 +70,13 @@ void setup() {
   pinMode(PIN_BUZZER, OUTPUT);
   ArduinoBuzzer *buzzer = new ArduinoBuzzer(PIN_BUZZER);
 
-  PollingTimerTrigger *ptt = new PollingTimerTrigger(new SubtractTimerCounter(_default_timer));
+  PollingTimerTrigger *ptt = new PollingTimerTrigger(new SubtractTimerCounter(default_timer));
   _updateable_elements.push_back(ptt);
   const Note notes[] = BUZZER_SOUND_ON_TICK;
   _player = new BuzzerPlayer(buzzer, ptt, notes, sizeof(notes)/sizeof(Note));
 
   // debug
-  ptt = new PollingTimerTrigger(new SubtractTimerCounter(_default_timer));
+  ptt = new PollingTimerTrigger(new SubtractTimerCounter(default_timer));
   _updateable_elements.push_back(ptt);
   ptt->setTriggerTime(1000)->setListener(new Test());
 }

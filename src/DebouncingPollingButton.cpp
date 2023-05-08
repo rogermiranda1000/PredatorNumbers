@@ -11,6 +11,10 @@ DebouncingPollingButton::DebouncingPollingButton(TimerCounter *timer) {
     this->_state = 0;
 }
 
+DebouncingPollingButton::~DebouncingPollingButton() {
+    delete this->_timer;
+}
+
 void DebouncingPollingButton::update() {
     switch (this->_state) {
     case OFF_STATE:

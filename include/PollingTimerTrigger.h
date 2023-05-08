@@ -11,6 +11,7 @@ private:
 
 public:
     PollingTimerTrigger(TimerCounter *timer);
+    ~PollingTimerTrigger();
 
     TimerTrigger *setTriggerTime(uint32_t every);
 

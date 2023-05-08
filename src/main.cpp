@@ -8,9 +8,8 @@
 #include "ArduinoBuzzer.h"
 #include "ArduinoButtonBuilder.h"
 #include "DebouncingPollingButton.h"
-
-#include "SubtractTimerCounter.h" // TODO delegate to builder
-#include "PollingTimerTrigger.h" // DEBUG ONLY
+#include "PollingTimerTriggerBuilder.h"
+#include "TimerTrigger.h"
 
 #define SERIAL_SPEED 115200
 
@@ -51,14 +50,15 @@ void setup() {
 
   Timer *default_timer = new LambdaTimer(millis); // use the default Arduino timer
 
-  ArduinoButtonBuilder buttonBuilder(default_timer);
+  ArduinoButtonBuilder button_builder(default_timer);
+  PollingTimerTriggerBuilder trigger_timer_builder(default_timer, [](StatefulClass *e){ _updateable_elements.push_back(e); });
 
   pinMode(PIN_BTN0, INPUT_PULLUP);
-  DebouncingPollingButton *btn0 = buttonBuilder.build(PIN_BTN0, false);
+  DebouncingPollingButton *btn0 = button_builder.build(PIN_BTN0, false);
   _updateable_elements.push_back(btn0);
 
   pinMode(PIN_BTN1, INPUT_PULLUP);
-  DebouncingPollingButton *btn1 = buttonBuilder.build(PIN_BTN1, false);
+  DebouncingPollingButton *btn1 = button_builder.build(PIN_BTN1, false);
   _updateable_elements.push_back(btn1);
 
   // TODO add the btns to `CounterButtonsHandler`
@@ -70,14 +70,12 @@ void setup() {
   pinMode(PIN_BUZZER, OUTPUT);
   ArduinoBuzzer *buzzer = new ArduinoBuzzer(PIN_BUZZER);
 
-  PollingTimerTrigger *ptt = new PollingTimerTrigger(new SubtractTimerCounter(default_timer));
-  _updateable_elements.push_back(ptt);
+  TimerTrigger *ptt = trigger_timer_builder.build();
   const Note notes[] = BUZZER_SOUND_ON_TICK;
   _player = new BuzzerPlayer(buzzer, ptt, notes, sizeof(notes)/sizeof(Note));
 
   // debug
-  ptt = new PollingTimerTrigger(new SubtractTimerCounter(default_timer));
-  _updateable_elements.push_back(ptt);
+  ptt = trigger_timer_builder.build();
   ptt->setTriggerTime(1000)->setListener(new Test());
 }
 

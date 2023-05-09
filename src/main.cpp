@@ -6,9 +6,9 @@
 #include "TriggerableButton.h"
 #include "BuzzerPlayer.h"
 #include "ArduinoBuzzer.h"
-#include "ArduinoButtonBuilder.h"
-#include "DebouncingPollingButton.h"
-#include "PollingTimerTriggerBuilder.h"
+#include "ArduinoButtonFactory.h"
+#include "TriggerableButton.h"
+#include "PollingTimerTriggerFactory.h"
 #include "TimerTrigger.h"
 
 #define SERIAL_SPEED 115200
@@ -50,16 +50,15 @@ void setup() {
 
   Timer *default_timer = new LambdaTimer(millis); // use the default Arduino timer
 
-  ArduinoButtonBuilder button_builder(default_timer);
-  PollingTimerTriggerBuilder trigger_timer_builder(default_timer, [](StatefulClass *e){ _updateable_elements.push_back(e); });
+  auto updateable_elements_appender = [](StatefulClass *e){ _updateable_elements.push_back(e); };
+  ArduinoButtonFactory button_builder(default_timer, updateable_elements_appender);
+  PollingTimerTriggerFactory trigger_timer_builder(default_timer, updateable_elements_appender);
 
   pinMode(PIN_BTN0, INPUT_PULLUP);
-  DebouncingPollingButton *btn0 = button_builder.build(PIN_BTN0, false);
-  _updateable_elements.push_back(btn0);
+  TriggerableButton *btn0 = button_builder.build(PIN_BTN0, false);
 
   pinMode(PIN_BTN1, INPUT_PULLUP);
-  DebouncingPollingButton *btn1 = button_builder.build(PIN_BTN1, false);
-  _updateable_elements.push_back(btn1);
+  TriggerableButton *btn1 = button_builder.build(PIN_BTN1, false);
 
   // TODO add the btns to `CounterButtonsHandler`
 

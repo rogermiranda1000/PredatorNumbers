@@ -25842,7 +25842,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -456,
+											"left": -488,
 											"top": -136,
 											"height": 13
 										},
@@ -25853,11 +25853,11 @@
 												"$ref": "AAAAAAGH/IWD0SXo+rw="
 											},
 											"font": "Arial;13;1",
-											"left": 813,
+											"left": 797,
 											"top": 1087,
 											"width": 389.89208984375,
 											"height": 13,
-											"text": "ArduinoButtonBuilder"
+											"text": "ArduinoButtonFactory"
 										},
 										{
 											"_type": "LabelView",
@@ -25867,7 +25867,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -456,
+											"left": -488,
 											"top": -136,
 											"width": 74.41357421875,
 											"height": 13,
@@ -25881,14 +25881,14 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -456,
+											"left": -488,
 											"top": -136,
 											"height": 13,
 											"horizontalAlignment": 1
 										}
 									],
 									"font": "Arial;13;0",
-									"left": 808,
+									"left": 792,
 									"top": 1080,
 									"width": 399.89208984375,
 									"height": 25,
@@ -25915,7 +25915,7 @@
 										"$ref": "AAAAAAGH/IWD0CXlP+o="
 									},
 									"font": "Arial;13;0",
-									"left": 808,
+									"left": 792,
 									"top": 1105,
 									"width": 399.89208984375,
 									"height": 10
@@ -25940,16 +25940,16 @@
 												"$ref": "AAAAAAGH/Iadn953Yfo="
 											},
 											"font": "Arial;13;0",
-											"left": 813,
+											"left": 797,
 											"top": 1120,
 											"width": 389.89208984375,
 											"height": 13,
-											"text": "+build(port: uint8_t, pressed_logic: bool): DebouncingPollingButton*",
+											"text": "+build(port: uint8_t, pressed_logic: bool): Button*",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
-									"left": 808,
+									"left": 792,
 									"top": 1115,
 									"width": 399.89208984375,
 									"height": 23
@@ -25965,7 +25965,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -248,
+									"left": -264,
 									"top": -88,
 									"width": 10,
 									"height": 10
@@ -25981,7 +25981,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -248,
+									"left": -264,
 									"top": -88,
 									"width": 10,
 									"height": 10
@@ -25992,7 +25992,7 @@
 							},
 							"font": "Arial;13;0",
 							"containerChangeable": true,
-							"left": 808,
+							"left": 792,
 							"top": 1080,
 							"width": 399.89208984375,
 							"height": 58,
@@ -26053,9 +26053,9 @@
 											"font": "Arial;13;1",
 											"left": 1461,
 											"top": 1487,
-											"width": 168.4541015625,
+											"width": 169.5205078125,
 											"height": 13,
-											"text": "PollingTimerTriggerBuilder"
+											"text": "PollingTimerTriggerFactory"
 										},
 										{
 											"_type": "LabelView",
@@ -26088,7 +26088,7 @@
 									"font": "Arial;13;0",
 									"left": 1456,
 									"top": 1480,
-									"width": 178.4541015625,
+									"width": 179.5205078125,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGH/Jj2jBpt9ts="
@@ -26125,7 +26125,7 @@
 											"font": "Arial;13;0",
 											"left": 1461,
 											"top": 1510,
-											"width": 168.4541015625,
+											"width": 169.5205078125,
 											"height": 13,
 											"text": "+Attribute1",
 											"horizontalAlignment": 0
@@ -26134,7 +26134,7 @@
 									"font": "Arial;13;0",
 									"left": 1456,
 									"top": 1505,
-									"width": 178.4541015625,
+									"width": 179.5205078125,
 									"height": 23
 								},
 								{
@@ -26159,7 +26159,7 @@
 											"font": "Arial;13;0",
 											"left": 1461,
 											"top": 1533,
-											"width": 168.4541015625,
+											"width": 169.5205078125,
 											"height": 13,
 											"text": "+build(): TimerTrigger*",
 											"horizontalAlignment": 0
@@ -26168,7 +26168,7 @@
 									"font": "Arial;13;0",
 									"left": 1456,
 									"top": 1528,
-									"width": 178.4541015625,
+									"width": 179.5205078125,
 									"height": 23
 								},
 								{
@@ -26211,7 +26211,7 @@
 							"containerChangeable": true,
 							"left": 1456,
 							"top": 1480,
-							"width": 178.4541015625,
+							"width": 179.5205078125,
 							"height": 71,
 							"nameCompartment": {
 								"$ref": "AAAAAAGH/Jj2jBpsHHQ="
@@ -26688,99 +26688,6 @@
 						},
 						{
 							"_type": "UMLDependencyView",
-							"_id": "AAAAAAGH/JzSYY5M1HM=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"model": {
-								"$ref": "AAAAAAGH/JzSYI5KtGY="
-							},
-							"subViews": [
-								{
-									"_type": "EdgeLabelView",
-									"_id": "AAAAAAGH/JzSYY5NsUo=",
-									"_parent": {
-										"$ref": "AAAAAAGH/JzSYY5M1HM="
-									},
-									"model": {
-										"$ref": "AAAAAAGH/JzSYI5KtGY="
-									},
-									"visible": false,
-									"font": "Arial;13;0",
-									"left": 705,
-									"top": 1101,
-									"height": 13,
-									"alpha": 1.5707963267948966,
-									"distance": 15,
-									"hostEdge": {
-										"$ref": "AAAAAAGH/JzSYY5M1HM="
-									},
-									"edgePosition": 1
-								},
-								{
-									"_type": "EdgeLabelView",
-									"_id": "AAAAAAGH/JzSYY5Osmg=",
-									"_parent": {
-										"$ref": "AAAAAAGH/JzSYY5M1HM="
-									},
-									"model": {
-										"$ref": "AAAAAAGH/JzSYI5KtGY="
-									},
-									"visible": null,
-									"font": "Arial;13;0",
-									"left": 690,
-									"top": 1101,
-									"height": 13,
-									"alpha": 1.5707963267948966,
-									"distance": 30,
-									"hostEdge": {
-										"$ref": "AAAAAAGH/JzSYY5M1HM="
-									},
-									"edgePosition": 1
-								},
-								{
-									"_type": "EdgeLabelView",
-									"_id": "AAAAAAGH/JzSYY5Pkn0=",
-									"_parent": {
-										"$ref": "AAAAAAGH/JzSYY5M1HM="
-									},
-									"model": {
-										"$ref": "AAAAAAGH/JzSYI5KtGY="
-									},
-									"visible": false,
-									"font": "Arial;13;0",
-									"left": 734,
-									"top": 1102,
-									"height": 13,
-									"alpha": -1.5707963267948966,
-									"distance": 15,
-									"hostEdge": {
-										"$ref": "AAAAAAGH/JzSYY5M1HM="
-									},
-									"edgePosition": 1
-								}
-							],
-							"font": "Arial;13;0",
-							"head": {
-								"$ref": "AAAAAAGH3EAZqInf0k8="
-							},
-							"tail": {
-								"$ref": "AAAAAAGH/IWD0SXnJL4="
-							},
-							"points": "808:1108;720:1108;720:1060",
-							"showVisibility": true,
-							"nameLabel": {
-								"$ref": "AAAAAAGH/JzSYY5NsUo="
-							},
-							"stereotypeLabel": {
-								"$ref": "AAAAAAGH/JzSYY5Osmg="
-							},
-							"propertyLabel": {
-								"$ref": "AAAAAAGH/JzSYY5Pkn0="
-							}
-						},
-						{
-							"_type": "UMLDependencyView",
 							"_id": "AAAAAAGH/Jz8mML3Sa4=",
 							"_parent": {
 								"$ref": "AAAAAAFF+qBtyKM79qY="
@@ -26870,6 +26777,99 @@
 							},
 							"propertyLabel": {
 								"$ref": "AAAAAAGH/Jz8mML6swY="
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "AAAAAAGIAas889ZwZYw=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"model": {
+								"$ref": "AAAAAAGIAas889ZuZpk="
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGIAas889ZxADA=",
+									"_parent": {
+										"$ref": "AAAAAAGIAas889ZwZYw="
+									},
+									"model": {
+										"$ref": "AAAAAAGIAas889ZuZpk="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 785,
+									"top": 1000,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAGIAas889ZwZYw="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGIAas889Zy6uY=",
+									"_parent": {
+										"$ref": "AAAAAAGIAas889ZwZYw="
+									},
+									"model": {
+										"$ref": "AAAAAAGIAas889ZuZpk="
+									},
+									"visible": null,
+									"font": "Arial;13;0",
+									"left": 770,
+									"top": 1000,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAGIAas889ZwZYw="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGIAas889ZzqVM=",
+									"_parent": {
+										"$ref": "AAAAAAGIAas889ZwZYw="
+									},
+									"model": {
+										"$ref": "AAAAAAGIAas889ZuZpk="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 814,
+									"top": 1001,
+									"height": 13,
+									"alpha": -1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAGIAas889ZwZYw="
+									},
+									"edgePosition": 1
+								}
+							],
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAGH3Go3s9Yabok="
+							},
+							"tail": {
+								"$ref": "AAAAAAGH/IWD0SXnJL4="
+							},
+							"points": "800:1080;800:935",
+							"showVisibility": true,
+							"nameLabel": {
+								"$ref": "AAAAAAGIAas889ZxADA="
+							},
+							"stereotypeLabel": {
+								"$ref": "AAAAAAGIAas889Zy6uY="
+							},
+							"propertyLabel": {
+								"$ref": "AAAAAAGIAas889ZzqVM="
 							}
 						}
 					]
@@ -28016,7 +28016,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGH3DYQQizojyU="
 							},
-							"name": "PollingTimerTriggerBuilder",
+							"name": "PollingTimerTriggerFactory",
 							"ownedElements": [
 								{
 									"_type": "UMLAssociation",
@@ -29674,7 +29674,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGH3D8IFJGz+z0="
 							},
-							"name": "ArduinoButtonBuilder",
+							"name": "ArduinoButtonFactory",
 							"ownedElements": [
 								{
 									"_type": "UMLDependency",
@@ -29735,7 +29735,7 @@
 								},
 								{
 									"_type": "UMLDependency",
-									"_id": "AAAAAAGH/JzSYI5KtGY=",
+									"_id": "AAAAAAGIAas889ZuZpk=",
 									"_parent": {
 										"$ref": "AAAAAAGH/IWD0CXlP+o="
 									},
@@ -29743,7 +29743,7 @@
 										"$ref": "AAAAAAGH/IWD0CXlP+o="
 									},
 									"target": {
-										"$ref": "AAAAAAGH3EAZp4ndAl4="
+										"$ref": "AAAAAAGH3Go3s9YYL3I="
 									}
 								}
 							],
@@ -29762,7 +29762,7 @@
 											"_parent": {
 												"$ref": "AAAAAAGH/Iadn953Yfo="
 											},
-											"type": "DebouncingPollingButton*",
+											"type": "Button*",
 											"direction": "return"
 										},
 										{

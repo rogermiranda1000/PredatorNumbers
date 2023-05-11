@@ -82,10 +82,27 @@ void setup() {
   multiplexer_ports.push_back(PIN_EN4);
   DigitMultiplexer *multiplexer = new DigitMultiplexer(multiplexer_ports, true);
 
+  std::vector<pin_size_t> digits_ports;
+  pinMode(PIN_SEG0, OUTPUT);
+  digits_ports.push_back(PIN_SEG0);
+  pinMode(PIN_SEG1, OUTPUT);
+  digits_ports.push_back(PIN_SEG1);
+  pinMode(PIN_SEG2, OUTPUT);
+  digits_ports.push_back(PIN_SEG2);
+  pinMode(PIN_SEG3, OUTPUT);
+  digits_ports.push_back(PIN_SEG3);
+  pinMode(PIN_SEG4, OUTPUT);
+  digits_ports.push_back(PIN_SEG4);
+  pinMode(PIN_SEG5, OUTPUT);
+  digits_ports.push_back(PIN_SEG5);
+
   PredatorNumberingSystem *pns = new PredatorNumberingSystem();
   std::vector<Digit*> digits;
-  for (uint8_t n = 0; n < 4; n++) digits.push_back(new PredatorDigit(multiplexer, ));
-  MultiplexedDisplay *display = new MultiplexedDisplay(pns, digits, multiplexer);
+  for (uint8_t n = 0; n < 4; n++) digits.push_back(new PredatorDigit(multiplexer, digits_ports)); // it's all the same digit because it's multiplexed
+  MultiplexedDisplay *display = new MultiplexedDisplay(pns, digits, multiplexer, trigger_timer_builder.build());
+
+  // DEBUG ONLY
+  display->display(1234);
 }
 
 void loop() {

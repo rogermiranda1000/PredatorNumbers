@@ -1,10 +1,17 @@
 #include "MultiplexedDisplay.h"
 
 
-MultiplexedDisplay::MultiplexedDisplay(DisplayToDigits<uint16_t> *converter, std::vector<Digit*> digits, Multiplexer *multiplex_control)
+MultiplexedDisplay::MultiplexedDisplay(DisplayToDigits<uint16_t> *converter, std::vector<Digit*> digits, Multiplexer *multiplex_control, TimerTrigger *trigger)
             : Display(converter, digits) {
     this->_multiplex_control = multiplex_control;
     this->_displaying_digit = 0;
+
+    this->_timer = trigger;
+    this->_timer->setTriggerTime(MULTIPLEX_MS_TIME)->setListener(this);
+}
+
+MultiplexedDisplay::~MultiplexedDisplay() {
+    delete this->_timer;
 }
 
 void MultiplexedDisplay::display(uint16_t value) {

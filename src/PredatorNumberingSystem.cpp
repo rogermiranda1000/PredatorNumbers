@@ -31,16 +31,16 @@ uint16_t PredatorNumberingSystem::baseTenToNumbering(uint16_t from) {
     return associated_numbers[from];
 }
 
-std::vector<uint16_t> PredatorNumberingSystem::getDigits(uint16_t value, uint8_t num_digits) {
+std::vector<uint8_t> PredatorNumberingSystem::getDigits(uint16_t value, uint8_t num_digits) {
 #ifdef __EXCEPTIONS
     if (num_digits != 4) throw std::invalid_argument("This library is meant to be used with a 4-digit display");
 #endif
 
-    uint16_t base_ten = numberingToBaseTen(value);
-    std::vector<uint16_t> r;
+    std::vector<uint8_t> r;
+    // the value, besides being cryptic, it's still base 10
     for (int8_t n = 3; n >= 0; n--) {
-        r.insert(r.begin(), base_ten % 10); // as we're iterating the other way we have to insert it on the front
-        base_ten /= 10;
+        r.insert(r.begin(), value % 10); // as we're iterating the other way we have to insert it on the front
+        value /= 10;
     }
     return r;
 }

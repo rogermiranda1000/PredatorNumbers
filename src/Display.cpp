@@ -11,7 +11,7 @@ Display::~Display() {
 }
 
 void Display::display(uint16_t value) {
-    std::vector<uint16_t> digits = this->_converter->getDigits(value, this->numDigits());
+    std::vector<uint8_t> digits = this->_converter->getDigits(value, this->numDigits());
     for (uint8_t n = 0; n < this->numDigits(); n++) {
         this->_displaying[n] = digits[n];
         this->_digits[n]->setValue(this->_displaying[n]);

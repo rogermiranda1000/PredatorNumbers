@@ -71,6 +71,8 @@ void setup() {
   const Note notes[] = BUZZER_SOUND_ON_TICK;
   _player = new BuzzerPlayer(buzzer, trigger_timer_builder.build(), notes, sizeof(notes)/sizeof(Note));
 
+  PredatorNumberingSystem *pns = new PredatorNumberingSystem();
+
   std::vector<pin_size_t> multiplexer_ports;
   pinMode(PIN_EN1, OUTPUT);
   multiplexer_ports.push_back(PIN_EN1);
@@ -95,12 +97,11 @@ void setup() {
   digits_ports.push_back(PIN_SEG4);
   pinMode(PIN_SEG5, OUTPUT);
   digits_ports.push_back(PIN_SEG5);
-
-  PredatorNumberingSystem *pns = new PredatorNumberingSystem();
   std::vector<Digit*> digits;
   for (uint8_t n = 0; n < 4; n++) digits.push_back(new PredatorDigit(multiplexer, digits_ports)); // it's all the same digit because it's multiplexed
   MultiplexedDisplay *display = new MultiplexedDisplay(pns, digits, multiplexer, trigger_timer_builder.build());
 
+  
   // DEBUG ONLY
   display->display(1234);
 }

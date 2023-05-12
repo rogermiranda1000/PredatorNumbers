@@ -21,5 +21,11 @@ void MultiplexedDisplay::display(uint16_t value) {
 
 void MultiplexedDisplay::onTimerTriggered(TimerTrigger *trigger) {
     if (this->numDigits() == 0) return;
+
+    // update the displaying digit
     this->_displaying_digit = (this->_displaying_digit + 1) % this->numDigits();
+    this->_multiplex_control->enable(this->_displaying_digit);
+
+    // display the new digit
+    this->_digits[0]->setValue(_displaying[this->_displaying_digit]); // as all the digits are the same, you can set one and all will change
 }

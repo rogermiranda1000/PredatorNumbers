@@ -6,5 +6,5 @@
 template <class T>
 class DisplayToDigits {
 public:
-    virtual std::vector<T> getDigits(T value, uint8_t num_digits) = 0;
+    virtual std::vector<uint8_t> getDigits(T value, uint8_t num_digits) = 0;
 };

@@ -15,5 +15,5 @@ public:
     uint16_t maxNumberRepresented();
     uint16_t baseTenToNumbering(uint16_t from);
     uint16_t minNumberRepresented();
-    std::vector<uint16_t> getDigits(uint16_t value, uint8_t num_digits);
+    std::vector<uint8_t> getDigits(uint16_t value, uint8_t num_digits);
 };

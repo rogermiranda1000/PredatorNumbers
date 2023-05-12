@@ -12,8 +12,45 @@ void PredatorDigit::setValue(uint8_t value) {
 }
 
 std::vector<bool> PredatorDigit::decimalToGPIO(uint8_t value) {
-    // TODO
+    /* //!\\ we'll supose that the constructor input was (in order) PIN_SEG0 to PIN_SEG5 */
     std::vector<bool> r;
-    for (auto e : this->_arduino_ports) r.push_back(true);
+    switch (value) {
+        case 1:
+            r.push_back(false);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(false);
+            r.push_back(false);
+            break;
+
+        case 2:
+            break;
+
+        case 3:
+            break;
+
+        case 4:
+            break;
+
+        case 5:
+            break;
+
+        case 6:
+            break;
+
+        case 7:
+            break;
+
+        case 8:
+            break;
+
+        case 9:
+            break;
+
+        default: // ignore
+            break;
+    }
+    if (r.empty()) for (auto e : this->_arduino_ports) r.push_back(true);
     return r;
 }

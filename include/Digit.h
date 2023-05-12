@@ -13,5 +13,5 @@ protected:
 public:
     Digit(std::vector<pin_size_t> arduino_ports);
 
-    void setValue(uint8_t value);
+    virtual void setValue(uint8_t value);
 };

@@ -18,6 +18,8 @@ void DelayableTask::linkInstance(std::function<void(StatefulClass*)> link) {
 }
 
 void DelayableTask::update() {
+    if (this->_queue.empty()) return;
+    
     std::vector<std::function<void(void)>> queue_copy = this->_queue;
     this->_queue.clear();
 

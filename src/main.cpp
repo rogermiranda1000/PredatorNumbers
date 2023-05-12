@@ -13,7 +13,7 @@
 #include "MultiplexedDisplay.h"
 #include "CounterDisplay.h"
 #include "DigitMultiplexer.h"
-#include "PredatorDigit.h"
+#include "MultiplexedPredatorDigit.h"
 #include "PredatorNumberingSystem.h"
 #include "Digit.h"
 
@@ -98,7 +98,7 @@ void setup() {
   pinMode(PIN_SEG5, OUTPUT);
   digits_ports.push_back(PIN_SEG5);
   std::vector<Digit*> digits;
-  for (uint8_t n = 0; n < 4; n++) digits.push_back(new PredatorDigit(multiplexer, digits_ports)); // it's all the same digit because it's multiplexed
+  for (uint8_t n = 0; n < 4; n++) digits.push_back(new MultiplexedPredatorDigit(multiplexer, digits_ports)); // it's all the same digit because it's multiplexed
   MultiplexedDisplay *display = new MultiplexedDisplay(pns, digits, multiplexer, trigger_timer_builder.build());
 
   

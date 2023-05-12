@@ -16867,7 +16867,7 @@
 											"top": 1615,
 											"width": 223.640625,
 											"height": 13,
-											"text": "PredatorDigit"
+											"text": "MultiplexedPredatorDigit"
 										},
 										{
 											"_type": "LabelView",
@@ -30947,7 +30947,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGH3ETua6c62X4="
 							},
-							"name": "PredatorDigit",
+							"name": "MultiplexedPredatorDigit",
 							"ownedElements": [
 								{
 									"_type": "UMLGeneralization",

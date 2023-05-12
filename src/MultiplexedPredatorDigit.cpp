@@ -1,17 +1,17 @@
-#include "PredatorDigit.h"
+#include "MultiplexedPredatorDigit.h"
 
-PredatorDigit::PredatorDigit(Multiplexer *multiplex_control, std::vector<pin_size_t> arduino_ports)
+MultiplexedPredatorDigit::MultiplexedPredatorDigit(Multiplexer *multiplex_control, std::vector<pin_size_t> arduino_ports)
                 : Digit(arduino_ports) {
     this->_multiplex_control = multiplex_control;
 }
 
-void PredatorDigit::setValue(uint8_t value) {
+void MultiplexedPredatorDigit::setValue(uint8_t value) {
     // we can't disable it inmediately because `MultiplexedDisplay` will re-launch it after
     if (value == 0) DelayableTask::getInstance()->queue([this](){ this->_multiplex_control->disableAll(); });
     Digit::setValue(value);
 }
 
-std::vector<bool> PredatorDigit::decimalToGPIO(uint8_t value) {
+std::vector<bool> MultiplexedPredatorDigit::decimalToGPIO(uint8_t value) {
     /* //!\\ we'll supose that the constructor input was (in order) PIN_SEG0 to PIN_SEG5 */
     std::vector<bool> r;
     switch (value) {
@@ -87,16 +87,13 @@ std::vector<bool> PredatorDigit::decimalToGPIO(uint8_t value) {
             r.push_back(false);
             break;
 
-        case 9:
+        default: // 9 (or unexpected)
             r.push_back(true);
             r.push_back(true);
             r.push_back(true);
             r.push_back(true);
             r.push_back(true);
             r.push_back(true);
-            break;
-
-        default: // ignore
             break;
     }
     return r;

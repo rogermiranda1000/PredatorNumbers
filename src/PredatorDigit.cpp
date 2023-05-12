@@ -25,32 +25,79 @@ std::vector<bool> PredatorDigit::decimalToGPIO(uint8_t value) {
             break;
 
         case 2:
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(false);
             break;
 
         case 3:
+            r.push_back(false);
+            r.push_back(true);
+            r.push_back(false);
+            r.push_back(false);
+            r.push_back(true);
+            r.push_back(false);
             break;
 
         case 4:
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(false);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(false);
             break;
 
         case 5:
+            r.push_back(false);
+            r.push_back(false);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
             break;
 
         case 6:
+            r.push_back(true);
+            r.push_back(false);
+            r.push_back(false);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
             break;
 
         case 7:
+            r.push_back(false);
+            r.push_back(false);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(false);
+            r.push_back(true);
             break;
 
         case 8:
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(false);
             break;
 
         case 9:
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
+            r.push_back(true);
             break;
 
         default: // ignore
             break;
     }
-    if (r.empty()) for (auto e : this->_arduino_ports) r.push_back(true);
     return r;
 }

@@ -103,7 +103,7 @@ void setup() {
 
   
   // DEBUG ONLY
-  display->display(1234);
+  display->display(9009);
 }
 
 void loop() {

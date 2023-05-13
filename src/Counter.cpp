@@ -19,8 +19,10 @@ void Counter::onTimerTriggered(TimerTrigger *trigger) {
 }
 
 void Counter::setCurrent(uint16_t current) {
-    this->_current = current;
-    this->trigger();
+    if (this->_current != current) {
+        this->_current = current;
+        this->trigger();
+    }
 }
 
 void Counter::play() {

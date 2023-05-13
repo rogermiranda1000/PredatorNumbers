@@ -16,6 +16,9 @@
 #include "MultiplexedPredatorDigit.h"
 #include "PredatorNumberingSystem.h"
 #include "Digit.h"
+#include "Counter.h"
+#include "DelayProvider.h"
+#include "CounterTimerUpdater.h"
 
 #define SERIAL_SPEED 115200
 
@@ -101,9 +104,18 @@ void setup() {
   for (uint8_t n = 0; n < 4; n++) digits.push_back(new MultiplexedPredatorDigit(multiplexer, digits_ports)); // it's all the same digit because it's multiplexed
   MultiplexedDisplay *display = new MultiplexedDisplay(pns, digits, multiplexer, trigger_timer_builder.build());
 
+  Counter *counter = new Counter(new DelayProvider(), pns);
+  counter->addListener(new CounterTimerUpdater(trigger_timer_builder.build())); // TODO move to factory
+
+
+  CounterDisplay *cd = new CounterDisplay(display);
+  counter->addListener(cd);
+
   
   // DEBUG ONLY
-  display->display(9009);
+  //display->display(7808);
+  counter->setCurrent(30); // 30 iterations
+  counter->play();
 }
 
 void loop() {

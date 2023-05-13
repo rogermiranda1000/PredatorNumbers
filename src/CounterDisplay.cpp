@@ -5,7 +5,11 @@ CounterDisplay::CounterDisplay(Display *display) {
 }
 
 void CounterDisplay::onCounterChange(Counter *counter, uint16_t new_value) {
-    this->_display->display(new_value);
-}
+    uint16_t value = counter->getNumberingSystem()->baseTenToNumbering(new_value);
+    while ((int16_t)value == -1) {
+        new_value--;
+        value = counter->getNumberingSystem()->baseTenToNumbering(new_value);
+    }
 
-void CounterDisplay::onCounterStateChanged(Counter *counter, CounterState *state) { }
+    this->_display->display(value);
+}

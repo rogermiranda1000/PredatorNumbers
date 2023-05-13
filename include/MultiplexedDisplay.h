@@ -6,7 +6,7 @@
 #include "TimerTrigger.h"
 #include "TimerTriggered.h"
 
-#define MULTIPLEX_MS_TIME 5
+#define MULTIPLEX_MS_TIME 4
 
 class MultiplexedDisplay : public Display, public TimerTriggered {
 private:

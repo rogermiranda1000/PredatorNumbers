@@ -24,7 +24,7 @@ void BuzzerPlayer::play() {
 }
 
 void BuzzerPlayer::setState(uint16_t new_state) {
-    if (new_state > this->_notes.size()) new_state = 0; // no more notes; finished
+    if (new_state >= this->_notes.size()+FIRST_PLAY) new_state = WAITING; // no more notes; finished
 
     this->_state = new_state;
     if (this->_state == WAITING) {
@@ -32,7 +32,7 @@ void BuzzerPlayer::setState(uint16_t new_state) {
         this->_player->stop();
     }
     else {
-        Note to_play = this->_notes[this->_state - 1];
+        Note to_play = this->_notes[this->_state - FIRST_PLAY];
 
         this->_player->play(to_play.getFrequency());
 

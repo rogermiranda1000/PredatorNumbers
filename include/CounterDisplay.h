@@ -2,6 +2,7 @@
 
 #include "Display.h"
 #include "CounterUpdated.h"
+#include "Counter.h"
 
 class CounterDisplay : public CounterUpdated {
 private:
@@ -11,5 +12,5 @@ public:
     CounterDisplay(Display *display);
 
     void onCounterChange(Counter *counter, uint16_t new_value);
-    void onCounterStateChanged(Counter *counter, CounterState *state);
+    void onCounterStateChanged(Counter *counter, CounterState *state) {}
 };

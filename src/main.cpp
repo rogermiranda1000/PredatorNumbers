@@ -19,6 +19,7 @@
 #include "Counter.h"
 #include "DelayProvider.h"
 #include "CounterTimerUpdater.h"
+#include "CounterBuzzerPlayer.h"
 
 #define SERIAL_SPEED 115200
 
@@ -42,7 +43,6 @@
 #define BUZZER_SOUND_ON_TICK { Note(350,100), Note(600,10), Note(350,20), Note(600,10), Note(350,40) }
 
 TimerCounter *_timer;
-BuzzerPlayer *_player;
 std::vector<StatefulClass*> _updateable_elements;
 
 void setup() {
@@ -64,15 +64,6 @@ void setup() {
 
   // TODO add the btns to `CounterButtonsHandler`
 
-  btn0->addListener([](TriggerableButton *btn, bool is_on){
-    Serial.println("btn0 switch state!");
-  });
-
-  pinMode(PIN_BUZZER, OUTPUT);
-  ArduinoBuzzer *buzzer = new ArduinoBuzzer(PIN_BUZZER);
-
-  const Note notes[] = BUZZER_SOUND_ON_TICK;
-  _player = new BuzzerPlayer(buzzer, trigger_timer_builder.build(), notes, sizeof(notes)/sizeof(Note));
 
   PredatorNumberingSystem *pns = new PredatorNumberingSystem();
 
@@ -111,8 +102,24 @@ void setup() {
   CounterDisplay *cd = new CounterDisplay(display);
   counter->addListener(cd);
 
+
+
+  pinMode(PIN_BUZZER, OUTPUT);
+  ArduinoBuzzer *buzzer = new ArduinoBuzzer(PIN_BUZZER);
+
+  const Note notes[] = BUZZER_SOUND_ON_TICK;
+  BuzzerPlayer *_player = new BuzzerPlayer(buzzer, trigger_timer_builder.build(), notes, sizeof(notes)/sizeof(Note));
   
+  CounterBuzzerPlayer *cbp = new CounterBuzzerPlayer(_player);
+  counter->addListener(cbp);
+  
+
+
   // DEBUG ONLY
+  btn0->addListener([](TriggerableButton *btn, bool is_on){
+    Serial.println("btn0 switch state!");
+  });
+
   //display->display(7808);
   counter->setCurrent(30); // 30 iterations
   counter->play();

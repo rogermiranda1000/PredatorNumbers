@@ -20,6 +20,8 @@
 #include "DelayProvider.h"
 #include "CounterTimerUpdater.h"
 #include "CounterBuzzerPlayer.h"
+#include "DecimalDigitSelector.h"
+#include "CounterButtonsHandler.h"
 
 #define SERIAL_SPEED 115200
 
@@ -56,12 +58,6 @@ void setup() {
 
   DelayableTask::linkInstance(updateable_elements_appender);
 
-  pinMode(PIN_BTN0, INPUT_PULLUP);
-  TriggerableButton *btn0 = button_builder.build(PIN_BTN0, false);
-
-  pinMode(PIN_BTN1, INPUT_PULLUP);
-  TriggerableButton *btn1 = button_builder.build(PIN_BTN1, false);
-
   // TODO add the btns to `CounterButtonsHandler`
 
 
@@ -94,7 +90,8 @@ void setup() {
   std::vector<Digit*> digits;
   for (uint8_t n = 0; n < 4; n++) digits.push_back(new MultiplexedPredatorDigit(multiplexer, digits_ports)); // it's all the same digit because it's multiplexed
   MultiplexedDisplay *display = new MultiplexedDisplay(pns, digits, multiplexer, trigger_timer_builder.build());
-
+  display->display(0); // clear the display
+  
   Counter *counter = new Counter(new DelayProvider(), pns);
   counter->addListener(new CounterTimerUpdater(trigger_timer_builder.build())); // TODO move to factory
 
@@ -112,17 +109,23 @@ void setup() {
   
   CounterBuzzerPlayer *cbp = new CounterBuzzerPlayer(_player);
   counter->addListener(cbp);
+
+  DigitSelector *selector = new DecimalDigitSelector(counter, display, 4);
   
 
 
-  // DEBUG ONLY
-  btn0->addListener([](TriggerableButton *btn, bool is_on){
-    Serial.println("btn0 switch state!");
-  });
 
-  //display->display(7808);
-  counter->setCurrent(30); // 30 iterations
-  counter->play();
+  pinMode(PIN_BTN0, INPUT_PULLUP);
+  TriggerableButton *btn0 = button_builder.build(PIN_BTN0, false);
+
+  // TODO custom player for the edit sound
+  CounterButtonsHandler *cbh = new CounterButtonsHandler(selector, _player, btn0);
+
+  btn0->addListener(cbh);
+
+  pinMode(PIN_BTN1, INPUT_PULLUP);
+  TriggerableButton *btn1 = button_builder.build(PIN_BTN1, false);
+  btn1->addListener(cbh);
 }
 
 void loop() {

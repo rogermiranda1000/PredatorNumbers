@@ -20,6 +20,7 @@ void WifiNinaConnector::connect(char *ssid, char *pass) {
 
     this->_status = WL_IDLE_STATUS;
     this->_status = WiFi.begin(this->_ssid, this->_pass);
+    delay(400); // for some reason if it inmediately call update it won't connect
 }
 
 void WifiNinaConnector::update() {

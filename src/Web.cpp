@@ -2,6 +2,7 @@
 
 Web::Web() {
     this->_server = new WiFiServer(80);
+    this->_server->begin();
 }
 
 Web::~Web() {

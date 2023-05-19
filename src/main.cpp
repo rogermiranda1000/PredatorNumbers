@@ -44,6 +44,7 @@
 
 TimerCounter *_timer;
 std::vector<StatefulClass*> _updateable_elements;
+StatefulClass *delayable_task;
 
 void setup() {
   Serial.begin(SERIAL_SPEED);
@@ -54,7 +55,7 @@ void setup() {
   ArduinoButtonFactory button_builder(default_timer, updateable_elements_appender);
   PollingTimerTriggerFactory trigger_timer_builder(default_timer, updateable_elements_appender);
 
-  DelayableTask::linkInstance(updateable_elements_appender);
+  DelayableTask::linkInstance([](StatefulClass *dc) { delayable_task = dc; });
 
   pinMode(PIN_BTN0, INPUT_PULLUP);
   TriggerableButton *btn0 = button_builder.build(PIN_BTN0, false);
@@ -126,6 +127,9 @@ void setup() {
 }
 
 void loop() {
-  // update all the state machines
-  for (StatefulClass *e : _updateable_elements) e->update();
+  // update all the state machines (priorize the DelayableTask)
+  for (StatefulClass *e : _updateable_elements) {
+    e->update();
+    delayable_task->update();
+  }
 }

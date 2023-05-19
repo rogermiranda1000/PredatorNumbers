@@ -20,6 +20,11 @@
 #include "DelayProvider.h"
 #include "CounterTimerUpdater.h"
 #include "CounterBuzzerPlayer.h"
+#include "DecimalDigitSelector.h"
+#include "CounterButtonsHandler.h"
+#include "WifiNinaConnector.h"
+#include "arduino_secrets.h"
+#include "Web.h"
 
 #define SERIAL_SPEED 115200
 
@@ -46,8 +51,13 @@ TimerCounter *_timer;
 std::vector<StatefulClass*> _updateable_elements;
 StatefulClass *delayable_task;
 
+WifiConnector *_wifi;
+Web *_web;
+
 void setup() {
   Serial.begin(SERIAL_SPEED);
+
+  // TODO create factories to avoid this mess
 
   Timer *default_timer = new LambdaTimer(millis); // use the default Arduino timer
 
@@ -56,15 +66,6 @@ void setup() {
   PollingTimerTriggerFactory trigger_timer_builder(default_timer, updateable_elements_appender);
 
   DelayableTask::linkInstance([](StatefulClass *dc) { delayable_task = dc; });
-
-  pinMode(PIN_BTN0, INPUT_PULLUP);
-  TriggerableButton *btn0 = button_builder.build(PIN_BTN0, false);
-
-  pinMode(PIN_BTN1, INPUT_PULLUP);
-  TriggerableButton *btn1 = button_builder.build(PIN_BTN1, false);
-
-  // TODO add the btns to `CounterButtonsHandler`
-
 
   PredatorNumberingSystem *pns = new PredatorNumberingSystem();
 
@@ -95,6 +96,7 @@ void setup() {
   std::vector<Digit*> digits;
   for (uint8_t n = 0; n < 4; n++) digits.push_back(new MultiplexedPredatorDigit(multiplexer, digits_ports)); // it's all the same digit because it's multiplexed
   MultiplexedDisplay *display = new MultiplexedDisplay(pns, digits, multiplexer, trigger_timer_builder.build());
+  display->display(0); // clear the display
 
   Counter *counter = new Counter(new DelayProvider(), pns);
   counter->addListener(new CounterTimerUpdater(trigger_timer_builder.build())); // TODO move to factory
@@ -113,17 +115,29 @@ void setup() {
   
   CounterBuzzerPlayer *cbp = new CounterBuzzerPlayer(_player);
   counter->addListener(cbp);
+
+  DigitSelector *selector = new DecimalDigitSelector(counter, display, 4);
   
 
 
-  // DEBUG ONLY
-  btn0->addListener([](TriggerableButton *btn, bool is_on){
-    Serial.println("btn0 switch state!");
-  });
 
-  //display->display(7808);
-  counter->setCurrent(30); // 30 iterations
-  counter->play();
+  pinMode(PIN_BTN0, INPUT_PULLUP);
+  TriggerableButton *btn0 = button_builder.build(PIN_BTN0, false);
+
+  // TODO custom player for the edit sound
+  CounterButtonsHandler *cbh = new CounterButtonsHandler(selector, _player, btn0);
+
+  btn0->addListener(cbh);
+
+  pinMode(PIN_BTN1, INPUT_PULLUP);
+  TriggerableButton *btn1 = button_builder.build(PIN_BTN1, false);
+  btn1->addListener(cbh);
+
+
+  _wifi = new WifiNinaConnector();
+  _wifi->connect(SECRET_SSID, SECRET_PASS);
+  _updateable_elements.push_back(_wifi);
+  _web = nullptr;
 }
 
 void loop() {
@@ -131,5 +145,17 @@ void loop() {
   for (StatefulClass *e : _updateable_elements) {
     e->update();
     delayable_task->update();
+  }
+
+  if (_web == nullptr) {
+    // we need to check if the wifi conection was successful
+    std::string ip = _wifi->getIP();
+    if (!ip.empty()) {
+      Serial.print("Connected. ");
+      Serial.println(ip.c_str());
+
+      _web = new Web();
+      _updateable_elements.push_back(_web);
+    }
   }
 }

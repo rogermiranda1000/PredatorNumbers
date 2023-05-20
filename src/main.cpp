@@ -23,7 +23,7 @@
 #include "DecimalDigitSelector.h"
 #include "CounterButtonsHandler.h"
 #include "WifiNinaConnector.h"
-#include "arduino_secrets.h"
+#include "arduino_secrets.h" // place here the defined for SECRET_SSID and SECRET_PASS
 #include "Web.h"
 
 #define SERIAL_SPEED 115200
@@ -133,11 +133,12 @@ void setup() {
   TriggerableButton *btn1 = button_builder.build(PIN_BTN1, false);
   btn1->addListener(cbh);
 
-
+#ifdef SECRET_SSID
   _wifi = new WifiNinaConnector();
   _wifi->connect(SECRET_SSID, SECRET_PASS);
   _updateable_elements.push_back(_wifi);
   _web = nullptr;
+#endif
 }
 
 void loop() {
@@ -147,6 +148,7 @@ void loop() {
     delayable_task->update();
   }
 
+#ifdef SECRET_SSID
   if (_web == nullptr) {
     // we need to check if the wifi conection was successful
     std::string ip = _wifi->getIP();
@@ -158,4 +160,5 @@ void loop() {
       _updateable_elements.push_back(_web);
     }
   }
+#endif
 }

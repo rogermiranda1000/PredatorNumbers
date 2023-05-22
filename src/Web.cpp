@@ -5,6 +5,7 @@ Web::Web() {
     this->_server->begin();
     this->_step = 0;
 
+    this->_showing = "0000";
     this->_remaining_time = "00:00:00";
 }
 
@@ -44,23 +45,35 @@ void Web::update() {
 
   case 5:
     // the content of the HTTP response follows the header:
-    this->_serving.print(this->_remaining_time.c_str());
+    this->_serving.print(this->_showing.c_str());
     this->_step++;
     break;
 
   case 6:
+    // the content of the HTTP response follows the header:
+    this->_serving.print("<br>");
+    this->_step++;
+    break;
+    
+  case 7:
+    // the content of the HTTP response follows the header:
+    this->_serving.print(this->_remaining_time.c_str());
+    this->_step++;
+    break;
+
+  case 8:
     // TODO subscribe & send each update (instead of forcing a refresh)
     this->_serving.print("<meta http-equiv='refresh' content='1' />"); // refresh the page each second
     this->_step++;
     break;
 
-  case 7:
+  case 9:
     // The HTTP response ends with another blank line:
     this->_serving.println();
     this->_step++;
     break;
     
-  case 8:
+  case 10:
     // close the connection
     this->_serving.stop();
     this->_step = 0;
@@ -71,6 +84,9 @@ void Web::update() {
 void Web::onCounterChange(Counter *counter, uint16_t new_value) {
   uint16_t seconds_until_finish = counter->getDelayable()->getMsUntilFinish(new_value) / 1000;
   this->_remaining_time = Web::secondsToDate(seconds_until_finish);
+
+  this->_showing = std::to_string(counter->getNumberingSystem()->baseTenToNumbering(new_value));
+  while (this->_showing.size() < 4) this->_showing = "0" + this->_showing;
 }
 
 std::string Web::secondsToDate(uint16_t seconds) {

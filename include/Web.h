@@ -9,7 +9,8 @@
 class Web : public StatefulClass, public CounterUpdated {
 private:
     WiFiServer *_server;
-    std::string _remaining_time;
+    std::string _remaining_time,
+                _showing;
 
     WiFiClient _serving;
     uint8_t _step;

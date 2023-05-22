@@ -3,6 +3,8 @@
 Web::Web() {
     this->_server = new WiFiServer(80);
     this->_server->begin();
+
+    this->_remaining_time = "00:00:00";
 }
 
 Web::~Web() {
@@ -10,15 +12,14 @@ Web::~Web() {
 }
 
 void Web::update() {
-    WiFiClient client = this->_server->available();   // listen for incoming clients
+  WiFiClient client = this->_server->available();   // listen for incoming clients
 
   if (client) {                             // if you get a client,
-    Serial.println("new client");           // print a message out the serial port
     String currentLine = "";                // make a String to hold incoming data from the client
+    // TODO a while inside the loop it's very bad
     while (client.connected()) {            // loop while the client's connected
       if (client.available()) {             // if there are bytes to read from the client,
         char c = client.read();             // read a byte, then
-        Serial.write(c);                    // print it out the serial monitor
         if (c == '\n') {                    // if the byte is a newline character
 
           // if the current line is blank, you got two newline characters in a row.
@@ -31,8 +32,9 @@ void Web::update() {
             client.println();
 
             // the content of the HTTP response follows the header:
-            client.print("Click <a href=\"/H\">here</a> turn the LED on pin 9 on<br>");
-            client.print("Click <a href=\"/L\">here</a> turn the LED on pin 9 off<br>");
+            client.print(this->_remaining_time.c_str());
+            // TODO subscribe & send each update (instead of forcing a refresh)
+            client.print("<meta http-equiv='refresh' content='1' />"); // refresh the page each second
 
             // The HTTP response ends with another blank line:
             client.println();
@@ -47,17 +49,35 @@ void Web::update() {
           currentLine += c;      // add it to the end of the currentLine
         }
 
-        // Check to see if the client request was "GET /H" or "GET /L":
-        if (currentLine.endsWith("GET /H")) {
-          digitalWrite(9, HIGH);               // GET /H turns the LED on
-        }
-        if (currentLine.endsWith("GET /L")) {
-          digitalWrite(9, LOW);                // GET /L turns the LED off
-        }
+        // here you can check different endpoints with `currentLine`
       }
     }
     // close the connection:
     client.stop();
-    Serial.println("client disconnected");
   }
+}
+
+void Web::onCounterChange(Counter *counter, uint16_t new_value) {
+  uint16_t seconds_until_finish = counter->getDelayable()->getMsUntilFinish(new_value) / 1000;
+  this->_remaining_time = Web::secondsToDate(seconds_until_finish);
+}
+
+std::string Web::secondsToDate(uint16_t seconds) {
+  std::string adding, r;
+
+  adding = std::to_string(seconds / 3600);
+  seconds -= (seconds / 3600) * 3600;
+  if (adding.size() < 2) adding = "0" + adding;
+  r = adding + ":";
+
+  adding = std::to_string(seconds / 60);
+  seconds -= (seconds / 60) * 60;
+  if (adding.size() < 2) adding = "0" + adding;
+  r += adding + ":";
+
+  adding = std::to_string(seconds);
+  if (adding.size() < 2) adding = "0" + adding;
+  r += adding;
+
+  return r;
 }

@@ -53,6 +53,7 @@ StatefulClass *delayable_task;
 
 WifiConnector *_wifi;
 Web *_web;
+Counter *_counter;
 
 void setup() {
   Serial.begin(SERIAL_SPEED);
@@ -98,12 +99,12 @@ void setup() {
   MultiplexedDisplay *display = new MultiplexedDisplay(pns, digits, multiplexer, trigger_timer_builder.build());
   display->display(0); // clear the display
 
-  Counter *counter = new Counter(new DelayProvider(), pns);
-  counter->addListener(new CounterTimerUpdater(trigger_timer_builder.build())); // TODO move to factory
+  _counter = new Counter(new DelayProvider(), pns);
+  _counter->addListener(new CounterTimerUpdater(trigger_timer_builder.build())); // TODO move to factory
 
 
   CounterDisplay *cd = new CounterDisplay(display);
-  counter->addListener(cd);
+  _counter->addListener(cd);
 
 
 
@@ -114,9 +115,9 @@ void setup() {
   BuzzerPlayer *_player = new BuzzerPlayer(buzzer, trigger_timer_builder.build(), notes, sizeof(notes)/sizeof(Note));
   
   CounterBuzzerPlayer *cbp = new CounterBuzzerPlayer(_player);
-  counter->addListener(cbp);
+  _counter->addListener(cbp);
 
-  DigitSelector *selector = new DecimalDigitSelector(counter, display, 4);
+  DigitSelector *selector = new DecimalDigitSelector(_counter, display, 4);
   
 
 
@@ -158,6 +159,7 @@ void loop() {
 
       _web = new Web();
       _updateable_elements.push_back(_web);
+      _counter->addListener(_web);
     }
   }
 #endif

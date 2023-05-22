@@ -11,6 +11,9 @@ private:
     WiFiServer *_server;
     std::string _remaining_time;
 
+    WiFiClient _serving;
+    uint8_t _step;
+
     static std::string secondsToDate(uint16_t seconds);
 
 public:

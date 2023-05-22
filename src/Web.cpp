@@ -3,6 +3,7 @@
 Web::Web() {
     this->_server = new WiFiServer(80);
     this->_server->begin();
+    this->_step = 0;
 
     this->_remaining_time = "00:00:00";
 }
@@ -12,48 +13,58 @@ Web::~Web() {
 }
 
 void Web::update() {
-  WiFiClient client = this->_server->available();   // listen for incoming clients
+  switch (this->_step) {
+  case 0:
+  default:
+    this->_serving = this->_server->available();   // listen for incoming clients
+    if (this->_serving) this->_step++;
+    break;
+  
+  case 1:
+    if (this->_serving.available()) this->_step++;
+    else this->_step--;
+    break;
 
-  if (client) {                             // if you get a client,
-    String currentLine = "";                // make a String to hold incoming data from the client
-    // TODO a while inside the loop it's very bad
-    while (client.connected()) {            // loop while the client's connected
-      if (client.available()) {             // if there are bytes to read from the client,
-        char c = client.read();             // read a byte, then
-        if (c == '\n') {                    // if the byte is a newline character
+  case 2:
+    // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
+    // and a content-type so the client knows what's coming, then a blank line:
+    this->_serving.println("HTTP/1.1 200 OK");
+    this->_step++;
+    break;
 
-          // if the current line is blank, you got two newline characters in a row.
-          // that's the end of the client HTTP request, so send a response:
-          if (currentLine.length() == 0) {
-            // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
-            // and a content-type so the client knows what's coming, then a blank line:
-            client.println("HTTP/1.1 200 OK");
-            client.println("Content-type:text/html");
-            client.println();
+  case 3:
+    this->_serving.println("Content-type:text/html");
+    this->_step++;
+    break;
 
-            // the content of the HTTP response follows the header:
-            client.print(this->_remaining_time.c_str());
-            // TODO subscribe & send each update (instead of forcing a refresh)
-            client.print("<meta http-equiv='refresh' content='1' />"); // refresh the page each second
+  case 4:
+    this->_serving.println();
+    this->_step++;
+    break;
 
-            // The HTTP response ends with another blank line:
-            client.println();
-            // break out of the while loop:
-            break;
-          }
-          else {      // if you got a newline, then clear currentLine:
-            currentLine = "";
-          }
-        }
-        else if (c != '\r') {    // if you got anything else but a carriage return character,
-          currentLine += c;      // add it to the end of the currentLine
-        }
+  case 5:
+    // the content of the HTTP response follows the header:
+    this->_serving.print(this->_remaining_time.c_str());
+    this->_step++;
+    break;
 
-        // here you can check different endpoints with `currentLine`
-      }
-    }
-    // close the connection:
-    client.stop();
+  case 6:
+    // TODO subscribe & send each update (instead of forcing a refresh)
+    this->_serving.print("<meta http-equiv='refresh' content='1' />"); // refresh the page each second
+    this->_step++;
+    break;
+
+  case 7:
+    // The HTTP response ends with another blank line:
+    this->_serving.println();
+    this->_step++;
+    break;
+    
+  case 8:
+    // close the connection
+    this->_serving.stop();
+    this->_step = 0;
+    break;
   }
 }
 
